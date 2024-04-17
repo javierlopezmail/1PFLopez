@@ -26,8 +26,7 @@
       <ng-container matColumnDef="acciones">
         <mat-header-cell *matHeaderCellDef> Acciones </mat-header-cell>
         <mat-cell *matCellDef="let alumno">
-          <!-- <button mat-button color="primary" (click)="editAlumno(alumno)">Editar</button> -->
-          <button mat-button color="primary">Editar</button>
+          <button mat-button color="primary" (click)="editAlumno(alumno.id)">Editar</button>
           <button mat-button color="warn" (click)="deleteAlumno(alumno.id)">Eliminar</button>
         </mat-cell>
       </ng-container>

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { Alumno } from '../../models/alumno';
 import { AlumnoService } from '../../services/alumno.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-alumnos-list',
@@ -12,7 +13,7 @@ export class AlumnosListComponent implements OnInit {
   displayedColumns: string[] = ['id', 'nombre', 'apellido', 'curso', 'acciones'];
   dataSource = new MatTableDataSource<Alumno>();
 
-  constructor(private alumnoService: AlumnoService) { }
+  constructor(private alumnoService: AlumnoService, private router: Router) { }
 
   ngOnInit() {
     this.alumnoService.getAlumnos().subscribe(alumnos => {
@@ -22,5 +23,9 @@ export class AlumnosListComponent implements OnInit {
 
   deleteAlumno(id: number) {
     this.alumnoService.deleteAlumno(id);
+  }
+
+  editAlumno(id: number) {
+    this.router.navigate(['/alumnos/edit', id]);
   }
 }

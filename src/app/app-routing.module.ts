@@ -6,6 +6,7 @@ import { AlumnosABMComponent } from './components/alumnos-abm/alumnos-abm.compon
 const routes: Routes = [
   { path: 'listado-alumnos', component: AlumnosListComponent },
   { path: 'alta-alumno', component: AlumnosABMComponent, data: { mode: 'create' } },
+  { path: 'alumnos/edit/:id', component: AlumnosABMComponent }, 
   { path: 'modificacion-alumno', component: AlumnosABMComponent, data: { mode: 'edit' } },
   { path: 'baja-alumno', component: AlumnosABMComponent, data: { mode: 'delete' } },
   { path: '', redirectTo: '/listado-alumnos', pathMatch: 'full' }

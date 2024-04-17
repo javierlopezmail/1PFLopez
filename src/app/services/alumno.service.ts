@@ -43,4 +43,9 @@ export class AlumnoService {
     this.alumnos = this.alumnos.filter(a => a.id !== id);
     this.alumnosSubject.next(this.alumnos);
   }
+
+  getAlumnoById(id: number): Alumno | undefined {
+    let alumno = this.alumnos.find(alumno => alumno.id == id); 
+    return alumno;
+  }
 }
