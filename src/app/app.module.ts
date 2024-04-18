@@ -14,6 +14,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTableModule } from '@angular/material/table';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 // Componentes Personalizados
 import { AppComponent } from './app.component';
@@ -22,13 +23,18 @@ import { LayoutComponent } from './components/layout/layout.component';
 import { AlumnosListComponent } from './components/alumnos-list/alumnos-list.component';
 import { AlumnosABMComponent } from './components/alumnos-abm/alumnos-abm.component';
 
+//Pipes y Directivas personalizadas
+import { FullNamePipe } from './pipes/full-name.pipe';
+import { FontSizeDirective } from './directives/font-size.directive';
 
 @NgModule({
   declarations: [
     AppComponent,
     LayoutComponent,
     AlumnosListComponent,
-    AlumnosABMComponent
+    AlumnosABMComponent,
+    FontSizeDirective,
+    FullNamePipe
   ],
   imports: [
     BrowserModule,
@@ -45,7 +51,8 @@ import { AlumnosABMComponent } from './components/alumnos-abm/alumnos-abm.compon
     MatToolbarModule,
     MatTableModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
+    MatSnackBarModule
   ],
   providers: [],
   bootstrap: [AppComponent]

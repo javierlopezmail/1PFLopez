@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AlumnoService } from '../../services/alumno.service';
 import { Alumno } from '../../models/alumno';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-alumnos-abm',
@@ -11,10 +12,10 @@ import { Alumno } from '../../models/alumno';
 })
 export class AlumnosABMComponent implements OnInit {
   alumnoForm: FormGroup;
-  editing = false; // Flag to check if editing an existing student
+  editing = false;
 
   constructor(private fb: FormBuilder, private alumnoService: AlumnoService, private route: ActivatedRoute,
-    private router: Router) {
+    private router: Router, private snackBar: MatSnackBar) {
     this.alumnoForm = this.fb.group({
       id: [null],
       nombre: ['', Validators.required],
@@ -29,6 +30,7 @@ export class AlumnosABMComponent implements OnInit {
       const alumnoId = params['id'];
       if (alumnoId) {
         this.loadAlumnoData(alumnoId);
+        this.editing = true;
       }
     });
   }
@@ -36,23 +38,49 @@ export class AlumnosABMComponent implements OnInit {
   onSubmit(): void {
     const alumnoData: Alumno = this.alumnoForm.value;
     if (alumnoData.id) {
-      this.alumnoService.updateAlumno(alumnoData);
+      this.alumnoService.updateAlumno(alumnoData).subscribe({
+        next: () => {
+          this.snackBar.open('Alumno actualizado exitosamente', 'Cerrar', { duration: 3000 });
+        },
+        error: () => {
+          this.snackBar.open('Error al actualizar el alumno', 'Cerrar', { duration: 3000 });
+        }
+      });
     } else {
-      this.alumnoService.addAlumno(alumnoData);
+      this.alumnoService.addAlumno(alumnoData).subscribe({
+        next: () => {
+          this.snackBar.open('Alumno añadido exitosamente', 'Cerrar', { duration: 3000 });
+          this.clearForm();
+        },
+        error: () => {
+          this.snackBar.open('Error al añadir el alumno', 'Cerrar', { duration: 3000 });
+        }
+      });
     }
-    this.clearForm();
   }
 
   deleteAlumno(): void {
     if (this.editing && this.alumnoForm.value.id) {
-      this.alumnoService.deleteAlumno(this.alumnoForm.value.id);
-      this.clearForm();
+        this.alumnoService.deleteAlumno(this.alumnoForm.value.id).subscribe({
+            next: () => {
+                this.snackBar.open('Alumno eliminado exitosamente', 'Cerrar', { duration: 3000 });
+                this.clearForm();
+            },
+            error: () => {
+                this.snackBar.open('Error al eliminar el alumno', 'Cerrar', { duration: 3000 });
+            }
+        });
     }
   }
 
   clearForm(): void {
     this.alumnoForm.reset();
     this.editing = false;
+    
+    Object.keys(this.alumnoForm.controls).forEach(key => {
+        this.alumnoForm.get(key)?.markAsPristine();
+        this.alumnoForm.get(key)?.markAsUntouched();
+    });
   }
 
   cancel(): void {

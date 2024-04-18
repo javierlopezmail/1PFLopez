@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./alumnos-list.component.scss']
 })
 export class AlumnosListComponent implements OnInit {
-  displayedColumns: string[] = ['id', 'nombre', 'apellido', 'curso', 'acciones'];
+  displayedColumns: string[] = ['id', 'fullname', 'curso', 'acciones'];
   dataSource = new MatTableDataSource<Alumno>();
 
   constructor(private alumnoService: AlumnoService, private router: Router) { }

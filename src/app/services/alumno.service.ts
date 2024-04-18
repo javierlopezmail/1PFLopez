@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { Alumno } from '../models/alumno';
 
 @Injectable({
@@ -26,22 +26,30 @@ export class AlumnoService {
     return this.alumnosSubject.asObservable();
   }
 
-  addAlumno(alumno: Alumno): void {
+  addAlumno(alumno: Alumno): Observable<Alumno> {
     this.alumnos.push(alumno);
     this.alumnosSubject.next(this.alumnos);
+    return of(alumno);
   }
 
-  updateAlumno(alumno: Alumno): void {
+  updateAlumno(alumno: Alumno): Observable<Alumno> {
     const index = this.alumnos.findIndex(a => a.id === alumno.id);
     if (index !== -1) {
       this.alumnos[index] = alumno;
       this.alumnosSubject.next(this.alumnos);
+      return of(alumno);
     }
+    throw new Error('Alumno no encontrado');
   }
 
-  deleteAlumno(id: number): void {
-    this.alumnos = this.alumnos.filter(a => a.id !== id);
-    this.alumnosSubject.next(this.alumnos);
+  deleteAlumno(id: number): Observable<boolean> {
+    const index = this.alumnos.findIndex(a => a.id === id);
+    if (index !== -1) {
+      this.alumnos = this.alumnos.filter(a => a.id !== id);
+      this.alumnosSubject.next(this.alumnos);
+      return of(true);
+    }
+    throw new Error('Alumno no encontrado');
   }
 
   getAlumnoById(id: number): Alumno | undefined {

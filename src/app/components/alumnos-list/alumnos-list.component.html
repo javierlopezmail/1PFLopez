@@ -6,16 +6,10 @@
         <mat-cell *matCellDef="let alumno"> {{ alumno.id }} </mat-cell>
       </ng-container>
   
-      <!-- Columna de Nombre -->
-      <ng-container matColumnDef="nombre">
-        <mat-header-cell *matHeaderCellDef> Nombre </mat-header-cell>
-        <mat-cell *matCellDef="let alumno"> {{ alumno.nombre }} </mat-cell>
-      </ng-container>
-  
-      <!-- Columna de Apellido -->
-      <ng-container matColumnDef="apellido">
-        <mat-header-cell *matHeaderCellDef> Apellido </mat-header-cell>
-        <mat-cell *matCellDef="let alumno"> {{ alumno.apellido }} </mat-cell>
+      <!-- Columna de Nombre completo -->
+      <ng-container matColumnDef="fullname">
+        <mat-header-cell *matHeaderCellDef> Nombre Completo </mat-header-cell>
+        <mat-cell *matCellDef="let alumno"> {{ alumno | fullName }} </mat-cell>
       </ng-container>
   
       <!-- Columna de Curso -->
